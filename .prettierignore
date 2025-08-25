@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.next
+.turbo
+storybook-static
+test-results
+playwright-report
+coverage
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -6,21 +6,18 @@
 # Xem hướng dẫn đầy đủ
 pnpm dev-help
 
-# Phát triển SDK (với UI + Router + Host info)
+# Phát triển SDK hiện tại
 pnpm dev:payment    # Payment SDK  → http://localhost:3001
-pnpm dev:bank       # Bank SDK     → http://localhost:3002
-pnpm dev:game       # Game SDK     → http://localhost:3003
-pnpm dev:social     # Social SDK   → http://localhost:3004
-pnpm dev:all-sdks   # Tất cả SDK
+pnpm dev:all-sdks   # Chạy tất cả SDKs cùng lúc
 
-# Build (khi thay đổi shared packages)
-pnpm build
+# Tạo SDK mới (với full UI + Router + Vite)
+pnpm create-sdk auth        # Authentication SDK
+pnpm create-sdk chat        # Chat SDK
+pnpm create-sdk analytics   # Analytics SDK
 
-# Tạo SDK mới
-pnpm create-sdk
-
-# Test
-pnpm test
+# Build & Test
+pnpm build          # Build shared packages
+pnpm test           # Run tests
 ```
 
 ## 🏗️ Cấu trúc
@@ -33,31 +30,40 @@ izion-sdk/
 │   ├── api/          # HTTP client + interceptors
 │   └── ui/           # React components
 └── sdks/             # 🚀 SDK applications (Vite + React + Router)
-    ├── payment/      # Payment app với UI
-    ├── bank/         # Banking app với UI
-    ├── game/         # Gaming app với UI
-    └── social/       # Social app với UI
+    └── payment/      # Payment app với UI
 ```
 
 ## 💡 Workflow
 
-1. **Thay đổi shared packages** → `pnpm build`
-2. **Phát triển SDK** → `pnpm dev:payment` (hiển thị host + port)  
-3. **Test** → `pnpm test`
-4. **Tạo SDK mới** → `pnpm create-sdk`
+1. **Tạo SDK mới** → `pnpm create-sdk <name>`
+2. **Thêm dev script** → package.json
+3. **Phát triển SDK** → `pnpm dev:<name>`
+4. **Build packages** → `pnpm build` (khi cần)
+
+## 🎯 Tạo SDK mới
+
+```bash
+pnpm create-sdk auth "Authentication SDK"
+```
+
+Script sẽ tự động tạo:
+- ✅ **Vite config** với port riêng
+- ✅ **React Router** với 3 pages
+- ✅ **SCSS styling** 
+- ✅ **TypeScript** setup
+- ✅ **Package.json** đầy đủ
+- ✅ **SDK class** template
 
 ## 🌐 SDK Development Features
 
-- ✅ **React Router** cho mỗi SDK
-- ✅ **Vite dev server** với hot reload
+- ✅ **Hot reload** development
 - ✅ **Host info** rõ ràng (Local + Network)
-- ✅ **SCSS styling** support
-- ✅ **Component library** từ @izion/ui
-- ✅ **API integration** từ @izion/api
-- ✅ **Security features** từ @izion/security
+- ✅ **Component library** integration
+- ✅ **API client** ready
+- ✅ **Security features** built-in
 
 ## ⚠️ Quan trọng
 
-- **Packages** = Libraries (chỉ source code, không dev server)
-- **SDKs** = Applications (có UI, router, dev server với port riêng)
-- Chỉ chạy `dev` cho SDKs, không phải packages!
+- **Packages** = Libraries (chỉ source code)
+- **SDKs** = Applications (full development environment)
+- Sau khi tạo SDK → thêm script vào package.json

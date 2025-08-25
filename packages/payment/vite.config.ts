@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@izion/shared': resolve(__dirname, '../../packages/shared/src'),
-      '@izion/security': resolve(__dirname, '../../packages/security/src'),
-      '@izion/api': resolve(__dirname, '../../packages/api/src'),
-      '@izion/ui': resolve(__dirname, '../../packages/ui/src'),
+      '@izion/shared': resolve(__dirname, '../../utils/shared'),
+      '@izion/security': resolve(__dirname, '../../utils/security'),
+      '@izion/api': resolve(__dirname, '../../utils/api'),
+      '@izion/ui': resolve(__dirname, '../../utils/ui'),
     }
   },
   server: {

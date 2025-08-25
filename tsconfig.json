@@ -17,34 +17,15 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@izion/shared": ["packages/shared/src"],
-      "@izion/ui": ["packages/ui/src"],
-      "@izion/security": ["packages/security/src"],
-      "@izion/api": ["packages/api/src"],
-      "@izion/payment-sdk": ["sdks/payment/src"],
-      "@izion/bank-sdk": ["sdks/bank/src"],
-      "@izion/game-sdk": ["sdks/game/src"]
+      "@izion/shared": ["utils/shared"],
+      "@izion/ui": ["utils/ui"],
+      "@izion/security": ["utils/security"],
+      "@izion/api": ["utils/api"],
+      "@izion/payment-sdk": ["packages/payment/src"],
+      "@izion/bank-sdk": ["packages/bank/src"],
+      "@izion/game-sdk": ["packages/game/src"]
     }
   },
-  "include": [
-    "packages/**/*",
-    "sdks/**/*",
-    "apps/**/*",
-    "tools/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "storybook-static"
-  ],
-  "references": [
-    { "path": "./packages/shared" },
-    { "path": "./packages/ui" },
-    { "path": "./packages/security" },
-    { "path": "./packages/api" },
-    { "path": "./sdks/payment" },
-    { "path": "./sdks/bank" },
-    { "path": "./sdks/game" }
-  ]
+  "include": ["utils/**/*", "packages/**/*", "apps/**/*", "tools/**/*"],
+  "exclude": ["node_modules", "dist", "build", "storybook-static"]
 }

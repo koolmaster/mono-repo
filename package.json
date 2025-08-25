@@ -17,14 +17,10 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "pnpm build && changeset publish",
-    "create-sdk": "node scripts/create-sdk-simple.js",
+    "create-sdk": "node scripts/create-sdk.js",
     "prepare": "husky install",
     "dev-help": "node scripts/dev-help.js",
-    "dev:payment": "pnpm dev --filter=@izion/payment-sdk",
-    "dev:bank": "pnpm dev --filter=@izion/bank-sdk",
-    "dev:game": "pnpm dev --filter=@izion/game-sdk",
-    "dev:social": "pnpm dev --filter=@izion/social-sdk",
-    "dev:all-sdks": "turbo run dev --filter='@izion/*-sdk'"
+    "dev:payment": "pnpm dev --filter=@izion/payment-sdk"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.8",

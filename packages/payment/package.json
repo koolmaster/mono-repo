@@ -10,10 +10,6 @@
     "test": "echo \"No tests specified\""
   },
   "dependencies": {
-    "@izion/shared": "workspace:*",
-    "@izion/security": "workspace:*",
-    "@izion/api": "workspace:*",
-    "@izion/ui": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.0"

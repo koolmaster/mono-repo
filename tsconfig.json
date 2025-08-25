@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@izion/shared": ["packages/shared/src"],
+      "@izion/ui": ["packages/ui/src"],
+      "@izion/security": ["packages/security/src"],
+      "@izion/api": ["packages/api/src"],
+      "@izion/payment-sdk": ["sdks/payment/src"],
+      "@izion/bank-sdk": ["sdks/bank/src"],
+      "@izion/game-sdk": ["sdks/game/src"]
+    }
+  },
+  "include": [
+    "packages/**/*",
+    "sdks/**/*",
+    "apps/**/*",
+    "tools/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "storybook-static"
+  ],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/security" },
+    { "path": "./packages/api" },
+    { "path": "./sdks/payment" },
+    { "path": "./sdks/bank" },
+    { "path": "./sdks/game" }
+  ]
+}

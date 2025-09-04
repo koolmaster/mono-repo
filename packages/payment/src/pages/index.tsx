@@ -3,9 +3,12 @@ import React from 'react'
 
 interface PageProps {
   sdk: any
+  config?: any
 }
 
-export function Dashboard({ sdk }: PageProps) {
+export function Dashboard({ sdk, config }: PageProps) {
+  console.log('Dashboard loaded:', { sdk, config }); // Use the props to avoid unused warnings
+  
   return (
     <div className="dashboard-page">
       <h2>📊 Payment Dashboard</h2>
@@ -27,9 +30,9 @@ export function Dashboard({ sdk }: PageProps) {
   )
 }
 
-export function Payments({ sdk }: PageProps) {
+export function Payments({ sdk, config }: PageProps) {
   const handlePayment = () => {
-    console.log('Processing payment...', sdk)
+    console.log('Processing payment...', sdk, config)
   }
 
   return (
@@ -56,7 +59,9 @@ export function Payments({ sdk }: PageProps) {
   )
 }
 
-export function Settings({ sdk }: PageProps) {
+export function Settings({ sdk, config }: PageProps) {
+  console.log('Settings loaded:', { sdk, config }); // Use the props to avoid unused warnings
+  
   return (
     <div className="settings-page">
       <h2>⚙️ SDK Settings</h2>

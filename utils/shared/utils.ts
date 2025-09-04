@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
-
-export const generateId = (): string => {
-  return uuidv4();
+export const generateId = (prefix?: string): string => {
+  const timestamp = Date.now().toString(36);
+  const random = Math.random().toString(36).substring(2);
+  return prefix ? `${prefix}_${timestamp}_${random}` : `${timestamp}_${random}`;
 };
 
 export const formatError = (error: unknown): string => {

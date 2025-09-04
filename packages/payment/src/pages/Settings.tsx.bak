@@ -1,0 +1,253 @@
+import { useState, useEffect } from 'react'
+
+interface PageProps {
+  sdk: any
+  config?: {
+    theme: string
+    hideHeader: boolean
+    hideFooter: boolean
+    customerId: string
+    embedMode: boolean
+  }
+}
+
+function Settings({ sdk, config }: PageProps) {
+  const [sdkConfig, setSdkConfig] = useState<any>({})
+  const [isEditing, setIsEditing] = useState(false)
+
+  useEffect(() => {
+    // Load current SDK configuration
+    const currentConfig = sdk.getConfig()
+    setSdkConfig(currentConfig)
+  }, [sdk])
+
+  const handleConfigUpdate = (key: string, value: any) => {
+    const updatedConfig = { ...sdkConfig, [key]: value }
+    setSdkConfig(updatedConfig)
+    sdk.updateConfig({ [key]: value })
+  }
+
+  const toggleTheme = () => {
+    const newTheme = sdkConfig.theme === 'light' ? 'dark' : 'light'
+    handleConfigUpdate('theme', newTheme)
+    document.documentElement.setAttribute('data-theme', newTheme)
+  }
+
+  const clearSession = () => {
+    if (confirm('Are you sure you want to clear all payment session data?')) {
+      sdk.clearSession()
+      alert('Session data cleared successfully!')
+    }
+  }
+
+  return (
+    <div className="settings-page">
+      <div className="page-header">
+        <h2>⚙️ SDK Settings</h2>
+        {config?.embedMode && (
+          <div className="embed-badge">🔗 Embedded Mode</div>
+        )}
+      </div>
+
+      <div className="settings-sections">
+        {/* SDK Configuration */}
+        <section className="settings-section">
+          <h3>🔧 SDK Configuration</h3>
+          <div className="settings-form">
+            <div className="form-group">
+              <label>API Key</label>
+              <div className="input-with-action">
+                <input 
+                  type={isEditing ? 'text' : 'password'} 
+                  value={sdkConfig.apiKey || ''} 
+                  readOnly={!isEditing}
+                />
+                <button 
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="btn-small"
+                >
+                  {isEditing ? '👁️' : '✏️'}
+                </button>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Base URL</label>
+              <input 
+                type="url" 
+                value={sdkConfig.baseURL || ''} 
+                readOnly 
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Customer ID</label>
+              <input 
+                type="text" 
+                value={sdkConfig.customerId || config?.customerId || 'Not set'} 
+                readOnly 
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Currency</label>
+              <select 
+                value={sdkConfig.currency || 'USD'}
+                onChange={(e) => handleConfigUpdate('currency', e.target.value)}
+              >
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="VND">VND - Vietnamese Dong</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Language</label>
+              <select 
+                value={sdkConfig.language || 'en'}
+                onChange={(e) => handleConfigUpdate('language', e.target.value)}
+              >
+                <option value="en">English</option>
+                <option value="vi">Tiếng Việt</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        {/* Appearance */}
+        <section className="settings-section">
+          <h3>🎨 Appearance</h3>
+          <div className="settings-form">
+            <div className="form-group checkbox-group">
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={sdkConfig.theme === 'dark'}
+                  onChange={toggleTheme}
+                />
+                <span>Dark Mode</span>
+              </label>
+            </div>
+
+            <div className="theme-preview">
+              <div className="preview-card">
+                <h4>Preview</h4>
+                <p>Current theme: <strong>{sdkConfig.theme || 'light'}</strong></p>
+                <button className="btn-primary">Sample Button</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Security */}
+        <section className="settings-section">
+          <h3>🔒 Security</h3>
+          <div className="settings-form">
+            <div className="form-group checkbox-group">
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={!!sdkConfig.enableSecurity}
+                  onChange={(e) => handleConfigUpdate('enableSecurity', e.target.checked)}
+                />
+                <span>Enable Anti-Debug Protection</span>
+              </label>
+            </div>
+
+            <div className="security-info">
+              <h4>Security Features:</h4>
+              <ul>
+                <li>✅ F12 Key Blocking</li>
+                <li>✅ Right-click Prevention on Forms</li>
+                <li>✅ Developer Tools Detection</li>
+                <li>✅ Text Selection Prevention</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Integration Info */}
+        {config?.embedMode && (
+          <section className="settings-section">
+            <h3>🔗 Integration</h3>
+            <div className="integration-info">
+              <div className="info-card">
+                <h4>Embed URL</h4>
+                <code className="url-display">
+                  {window.location.href}
+                </code>
+                <button 
+                  onClick={() => navigator.clipboard.writeText(window.location.href)}
+                  className="btn-small"
+                >
+                  📋 Copy
+                </button>
+              </div>
+
+              <div className="info-card">
+                <h4>PostMessage Events</h4>
+                <ul>
+                  <li><code>PAYMENT_SUCCESS</code> - Payment completed</li>
+                  <li><code>PAYMENT_ERROR</code> - Payment failed</li>
+                  <li><code>CONFIG_UPDATE</code> - Configuration changed</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Actions */}
+        <section className="settings-section">
+          <h3>🛠️ Actions</h3>
+          <div className="action-buttons">
+            <button 
+              onClick={clearSession}
+              className="btn-danger"
+            >
+              🗑️ Clear Session Data
+            </button>
+            
+            <button 
+              onClick={() => window.location.reload()}
+              className="btn-secondary"
+            >
+              🔄 Reload SDK
+            </button>
+
+            <button 
+              onClick={() => console.log('SDK Config:', sdk.getConfig())}
+              className="btn-secondary"
+            >
+              🔍 Debug Info
+            </button>
+          </div>
+        </section>
+
+        {/* SDK Information */}
+        <section className="settings-section">
+          <h3>ℹ️ SDK Information</h3>
+          <div className="info-grid">
+            <div className="info-item">
+              <label>Version</label>
+              <span>{sdk.getVersion()}</span>
+            </div>
+            <div className="info-item">
+              <label>Mode</label>
+              <span>{config?.embedMode ? 'Embedded' : 'Standalone'}</span>
+            </div>
+            <div className="info-item">
+              <label>Initialized</label>
+              <span>✅ Ready</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  )
+}
+
+export default Settings

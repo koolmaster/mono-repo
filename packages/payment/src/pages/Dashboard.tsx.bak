@@ -1,0 +1,118 @@
+import React, { useEffect, useState } from 'react'
+
+interface PageProps {
+  sdk: any
+  config?: {
+    theme: string
+    hideHeader: boolean
+    hideFooter: boolean
+    customerId: string
+    embedMode: boolean
+  }
+}
+
+function Dashboard({ sdk, config }: PageProps) {
+  const [stats, setStats] = useState({
+    totalTransactions: 0,
+    revenue: 0,
+    successRate: 0,
+    pendingPayments: 0
+  })
+
+  useEffect(() => {
+    // Load dashboard data
+    const loadDashboardData = async () => {
+      try {
+        // Simulate API call - in real app, use sdk.getPaymentHistory()
+        setStats({
+          totalTransactions: 1234,
+          revenue: 12345.67,
+          successRate: 98.5,
+          pendingPayments: 15
+        })
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error)
+      }
+    }
+
+    loadDashboardData()
+  }, [sdk])
+
+  return (
+    <div className="dashboard-page">
+      <div className="page-header">
+        <h2>📊 Payment Dashboard</h2>
+        {config?.customerId && (
+          <p className="customer-info">Customer ID: {config.customerId}</p>
+        )}
+      </div>
+
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-icon">💳</div>
+          <h3>Total Transactions</h3>
+          <p className="stat-value">{stats.totalTransactions.toLocaleString()}</p>
+          <span className="stat-trend">+12% from last month</span>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">💰</div>
+          <h3>Revenue</h3>
+          <p className="stat-value">{sdk.formatCurrency(stats.revenue)}</p>
+          <span className="stat-trend">+8% from last month</span>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon">✅</div>
+          <h3>Success Rate</h3>
+          <p className="stat-value">{stats.successRate}%</p>
+          <span className="stat-trend">+2% from last month</span>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-icon">⏳</div>
+          <h3>Pending Payments</h3>
+          <p className="stat-value">{stats.pendingPayments}</p>
+          <span className="stat-trend">-5% from last month</span>
+        </div>
+      </div>
+
+      {config?.embedMode && (
+        <div className="embed-info">
+          <h3>🔗 Embed Integration</h3>
+          <p>This payment portal is running in embedded mode.</p>
+          <div className="integration-status">
+            <span className="status-indicator active"></span>
+            <span>Connected & Secure</span>
+          </div>
+        </div>
+      )}
+
+      <div className="quick-actions">
+        <h3>Quick Actions</h3>
+        <div className="action-buttons">
+          <button 
+            className="btn-primary"
+            onClick={() => window.location.href = '/payments'}
+          >
+            💳 New Payment
+          </button>
+          <button 
+            className="btn-secondary"
+            onClick={() => console.log('Refresh data')}
+          >
+            🔄 Refresh Data
+          </button>
+          <button 
+            className="btn-secondary"
+            onClick={() => window.location.href = '/settings'}
+          >
+            ⚙️ Settings
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Dashboard
